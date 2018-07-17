@@ -6,10 +6,10 @@ setup(
     description='Keylogger for linux systems',
     url='https://github.com/mmalarz/linlogger',
     license='LICENSE',
-    packages=[
-        'linlogger',
-        'linlogger.files',
+    packages=find_packages(),
+    install_requires=[
+        'clipboard >= 0.0.4',
+        'pyxhook >= 1.0.0',
     ],
-    install_requires=find_packages(),
     zip_safe=False
 )
