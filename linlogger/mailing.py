@@ -1,6 +1,6 @@
 import smtplib
 
-from linlogger.cli import message_to_screen
+from cli import message_to_screen
 
 email_to = ''
 email_from = ''

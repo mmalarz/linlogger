@@ -1,4 +1,4 @@
-from linlogger.cli import message_to_screen
+from cli import message_to_screen
 
 
 def append_to_file(file_path, list_of_chars):
