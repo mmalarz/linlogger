@@ -23,7 +23,7 @@ python linlogger.py
 ```
 
 ## Screenshots
-[a relative link](screenshots/linlogger-screenshot.png)
+![alt text](https://github.com/mmalarz/linlogger/blob/master/screenshots/linlogger-screenshot.png)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
