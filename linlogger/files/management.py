@@ -1,4 +1,4 @@
-from cli import message_to_screen
+from .. import cli
 
 
 def append_to_file(file_path, list_of_chars):
@@ -10,7 +10,7 @@ def append_to_file(file_path, list_of_chars):
 def clean_file(file_path):
     with open(file_path, 'w'):
         pass
-    message_to_screen('Content removed', True)
+    cli.message_to_screen('Content removed', True)
 
 
 def read_file(file_path):
@@ -18,4 +18,4 @@ def read_file(file_path):
         with open(file_path, 'r') as file:
             print(file.read())
     except FileNotFoundError:
-        message_to_screen('File does not exists', False)
+        cli.message_to_screen('File does not exists', False)

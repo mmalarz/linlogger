@@ -1,6 +1,6 @@
 import smtplib
 
-from cli import message_to_screen
+from . import cli
 
 email_to = ''
 email_from = ''
@@ -37,7 +37,7 @@ def send_file(file_path):
             with open(file_path, 'r') as file:
                 msg = file.read()
         except FileNotFoundError:
-            message_to_screen('Cannot open file', False)
+            cli.message_to_screen('Cannot open file', False)
             return
         try:
             server = smtplib.SMTP(smtp_host, smtp_port)
@@ -45,14 +45,14 @@ def send_file(file_path):
             server.login(email_from, email_password)
             server.sendmail(email_from, email_to, msg)
             server.quit()
-            message_to_screen('Mail sent', True)
+            cli.message_to_screen('Mail sent', True)
         except smtplib.SMTPServerDisconnected:
-            message_to_screen('Server Disconnected Error: check your smtp server details', False)
+            cli.message_to_screen('Server Disconnected Error: check your smtp server details', False)
         except smtplib.SMTPConnectError:
-            message_to_screen('Connection Error: can\'t connect with specified server.', False)
+            cli.message_to_screen('Connection Error: can\'t connect with specified server.', False)
         except smtplib.SMTPAuthenticationError:
-            message_to_screen('Authentication Error: check your email credentials', False)
+            cli.message_to_screen('Authentication Error: check your email credentials', False)
         except:
-            message_to_screen('An error occurred', False)
+            cli.message_to_screen('An error occurred', False)
     else:
-        message_to_screen('Email details not specified', False)
+        cli.message_to_screen('Email details not specified', False)
